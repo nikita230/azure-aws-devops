@@ -16,9 +16,13 @@ resource "aws_instance" "demo-vm" {
   key_name = aws_key_pair.auth-key
 }
 
-resource "aws_security_group_rule" "ssh-allow" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 22
-  protocol          = "tcp"
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
+  
+ ingress {
+    from_port        = 0
+    to_port          = 22
+    protocol         = "tcp"
+  }
 }
