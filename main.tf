@@ -13,7 +13,7 @@ resource "aws_instance" "demo-vm" {
    depends_on = [ aws_key_pair.auth-key ]
   ami= "ami-051ed863837a0b1b6"
   instance_type = "t2.micro"
-  key_name = aws_key_pair.auth-key
+  key_name = "auth-key"
 }
 
 resource "aws_security_group" "allow_ssh" {
