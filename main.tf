@@ -14,7 +14,7 @@ resource "aws_instance" "demo-vm" {
   ami= "ami-051ed863837a0b1b6"
   instance_type = "t2.micro"
   key_name = "auth-key"
-  security_groups = [ "aws_security_group.allow_ssh.name"]
+  security_groups = [aws_security_group.allow_ssh.name]
 #  connection {
 #     type     = "ssh"
 #     user     = "root"
