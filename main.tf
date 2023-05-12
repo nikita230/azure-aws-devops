@@ -22,7 +22,7 @@ resource "aws_instance" "demo-vm" {
 #    #private_key = aws_key_pair.auth-key
 #    host_key = "aws_key_pair.auth-key"
 #   }
-#security_groups = ["aws_security_group.allow_ssh"]
+
 
 
 user_data = <<-EOF
