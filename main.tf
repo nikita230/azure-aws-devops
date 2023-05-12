@@ -14,12 +14,13 @@ resource "aws_instance" "demo-vm" {
   ami= "ami-051ed863837a0b1b6"
   instance_type = "t2.micro"
   key_name = "auth-key"
-  
+
  connection {
     type     = "ssh"
     user     = "root"
     host     = self.public_ip
-   private_key = aws_key_pair.auth-key
+   #private_key = aws_key_pair.auth-key
+   host_key = aws_key_pair.auth-key
   }
 
  #security_groups = ["aws_security_group.allow_ssh"
