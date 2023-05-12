@@ -14,7 +14,7 @@ resource "aws_instance" "demo-vm" {
   ami= "ami-051ed863837a0b1b6"
   instance_type = "t2.micro"
   key_name = "auth-key"
-
+  security_groups = [ "aws_security_group.allow_ssh.name"]
 #  connection {
 #     type     = "ssh"
 #     user     = "root"
@@ -22,8 +22,8 @@ resource "aws_instance" "demo-vm" {
 #    #private_key = aws_key_pair.auth-key
 #    host_key = "aws_key_pair.auth-key"
 #   }
-vpc_security_group_ids = ["aws_security_group.allow_ssh"]
- #security_groups = 
+#security_groups = ["aws_security_group.allow_ssh"]
+
 
 user_data = <<-EOF
   #!bin/bash
@@ -44,16 +44,19 @@ user_data = <<-EOF
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
   description = "Allow SSH inbound traffic"
+  vpc_id      = "vpc-0f4accded9b409126"
   
  ingress {
     from_port        = 0
     to_port          = 22
     protocol         = "tcp"
+    cidr_blocks      = [ "0.0.0.0/0" ]
   }
    ingress {
     from_port        = 8080
     to_port          = 8080
     protocol         = "tcp"
+    cidr_blocks      = [ "0.0.0.0/0" ]
   }
 
 }
