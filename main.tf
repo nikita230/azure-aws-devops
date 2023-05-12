@@ -25,4 +25,10 @@ resource "aws_security_group" "allow_ssh" {
     to_port          = 22
     protocol         = "tcp"
   }
+   ingress {
+    from_port        = 0
+    to_port          = 8080
+    protocol         = "tcp"
+  }
+
 }
