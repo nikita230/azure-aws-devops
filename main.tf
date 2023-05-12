@@ -22,7 +22,7 @@ resource "aws_instance" "demo-vm" {
 #    #private_key = aws_key_pair.auth-key
 #    host_key = "aws_key_pair.auth-key"
 #   }
-vpc_security_group_ids = ["aws_security_group.allow_ssh.id"]
+#vpc_security_group_ids = ["aws_security_group.allow_ssh.id"]
  #security_groups = 
 
 user_data = <<-EOF
@@ -44,6 +44,7 @@ user_data = <<-EOF
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
   description = "Allow SSH inbound traffic"
+  vpc_id      = "vpc-0f4accded9b409126"
   
  ingress {
     from_port        = 0
