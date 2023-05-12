@@ -19,7 +19,7 @@ resource "aws_instance" "demo-vm" {
     type     = "ssh"
     user     = "root"
     host     = self.public_ip
-   private_key = aws_key_pair.auth-key
+  # private_key = aws_key_pair.auth-key
   }
 
  #security_groups = ["aws_security_group.allow_ssh"
