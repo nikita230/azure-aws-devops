@@ -23,7 +23,7 @@ resource "aws_instance" "demo-vm" {
 #    host_key = "aws_key_pair.auth-key"
 #   }
 
- #security_groups = ["aws_security_group.allow_ssh"
+ security_groups = ["aws_security_group.allow_ssh"]
 
 user_data = <<-EOF
   #!bin/bash
@@ -51,7 +51,7 @@ resource "aws_security_group" "allow_ssh" {
     protocol         = "tcp"
   }
    ingress {
-    from_port        = 0
+    from_port        = 8080
     to_port          = 8080
     protocol         = "tcp"
   }
