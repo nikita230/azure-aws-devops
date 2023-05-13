@@ -24,15 +24,15 @@ resource "aws_instance" "demo-vm" {
 #   }
 
 user_data = <<-EOF
-  #!bin/bash
-  yum update –y
-  wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-  rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-  yum upgrade -y
-  amazon-linux-extras install java-openjdk11 -y
-  yum install jenkins -y
-  systemctl enable jenkins
-  systemctl start jenkins
+   #!bin/bash
+   sudo yum update –y
+   sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+   sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+   sudo yum upgrade -y
+   sudo yum install java
+   sudo yum install jenkins -y
+   sudo systemctl enable jenkins
+   sudo systemctl start jenkins
   EOF
 }
 
