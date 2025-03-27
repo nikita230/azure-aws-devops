@@ -1,47 +1,34 @@
-# This is a basic workflow to help you get started with Actions
+name: Failover Pipeline
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch: # This allows manual triggering
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+permissions:
+  contents: write
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: self-hosted
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  wait-for-approval:
+    needs: send-teams-alert
+    runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: Waiting for manual approval
+        run: echo "Please approve the pipeline manually via GitHub Actions UI."
+    
+    outputs:
+      approval_required: "true"
 
-      # Runs a single command using the runners shell
-      - name: script
-        run: echo 'Hello, world!
-        continue-on-error: true
+  manual-approval:
+    needs: wait-for-approval
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.approval == 'yes' }}
+    steps:
+      - name: Proceed with Failover Pipeline
+        run: echo "Approval received. Proceeding to the next stage."
 
-      - name: Check Workflow Status
-        id: check_status
-        run: echo status::${{ job.status }}
-
-      - name: check step status
-        id: step-check
-        if: steps.script.outcome != 'success'
-        run: echo "failed"
-
-      - name: Send mail
-        if: always()
-        uses: dawidd6/action-send-mail@v2
-        
-
-     
+  cancel:
+    needs: wait-for-approval
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.approval == 'no' }}
+    steps:
+      - name: Cancel Pipeline
+        run: echo "Pipeline execution stopped due to disapproval."
