@@ -1,33 +1,30 @@
-name: Failover Pipeline
+name: Manual Approval & Continue
 
 on:
-  workflow_dispatch: # This allows manual triggering
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: "Do you approve execution? (yes/no)"
+        required: true
+        type: choice
+        options:
+          - "yes"
+          - "no"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  wait-for-approval:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Waiting for manual approval
-        run: echo "Please approve the pipeline manually via GitHub Actions UI."
-    
-    outputs:
-      approval_required: "true"
-
-  manual-approval:
-    needs: wait-for-approval
+  continue-pipeline:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.approval == 'yes' }}
     steps:
-      - name: Proceed with Failover Pipeline
-        run: echo "Approval received. Proceeding to the next stage."
+      - name: Continue with Failover Execution
+        run: echo "Approval received. Proceeding with failover steps..."
 
   cancel:
-    needs: wait-for-approval
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.approval == 'no' }}
     steps:
-      - name: Cancel Pipeline
-        run: echo "Pipeline execution stopped due to disapproval."
+      - name: Cancel Execution
+        run: echo "Pipeline stopped as per user request."
