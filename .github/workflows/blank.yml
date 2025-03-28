@@ -12,7 +12,9 @@ jobs:
     steps:
       - name: script
         run: echo "Hello, world! - ${{ vars.WORKSPACE_ID }}"
-        
+      - name: List All Environment Variables
+        run: env | sort
+   
 
   wait-for-approval:
     runs-on: ubuntu-latest
