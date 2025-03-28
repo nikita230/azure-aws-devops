@@ -18,8 +18,7 @@ jobs:
 
   wait-for-approval:
     runs-on: ubuntu-latest
-    needs: send-teams-alert
-    environment: manual-approval  # ⬅️ Requires manual approval in this environment
+    environment: manual-approval  # ⬅️ Requires manual approval in GitHub Environments
     steps:
       - name: Proceed After Approval
         run: echo "Approval granted! Executing next steps."
@@ -27,6 +26,17 @@ jobs:
   execute-failover:
     runs-on: ubuntu-latest
     needs: wait-for-approval
+    if: success()  # ⬅️ Ensures execution happens only if approval is granted
     steps:
       - name: Perform Failover Actions
         run: echo "Executing failover actions..."
+
+  handle-rejection:
+    runs-on: ubuntu-latest
+    needs: wait-for-approval
+    if: cancelled() || failure()  # ⬅️ This step runs if approval was denied
+    steps:
+      - name: Fail the Workflow
+        run: |
+          echo "Approval was denied. Failing the workflow!"
+          exit 1  # ⬅️ Forces workflow failure
