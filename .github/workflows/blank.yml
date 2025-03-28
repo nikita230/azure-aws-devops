@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: script
-        run: echo 'Hello, world! - $WORKSPACE_ID '
+        run: echo "Hello, world! - ${{ vars.WORKSPACE_ID }}"
         
 
   wait-for-approval:
