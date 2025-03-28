@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: script
-        run: echo "Hello, world! - ${{ vars.WORKSPACE_ID }}"
+        run: echo "Hello, world! - ${{ vars.WORKSPACE_ID }} - ${{ env.WORKSPACE_ID }}"
       - name: List All Environment Variables
         run: env | sort
    
