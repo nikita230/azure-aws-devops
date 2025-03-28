@@ -4,12 +4,10 @@ on:
   push:
     branches:
       - main
-  
-permissions:
-  contents: read
+
 
 jobs:
-  send-teams-alert:
+  Hello-world:
     runs-on: ubuntu-latest
     steps:
       - name: script
@@ -22,14 +20,6 @@ jobs:
     steps:
       - name: Proceed After Approval
         run: echo "Approval granted! Executing next steps."
-
-  execute-failover:
-    runs-on: ubuntu-latest
-    needs: wait-for-approval
-    if: success()  # ⬅️ Ensures execution happens only if approval is granted
-    steps:
-      - name: Perform Failover Actions
-        run: echo "Executing failover actions..."
  
   handle-rejection:
     runs-on: ubuntu-latest
@@ -39,4 +29,11 @@ jobs:
       - name: Fail the Workflow
         run: |
           echo "Approval was denied. Failing the workflow!"
-          exit 1  # ⬅️ Forces workflow failure
+    
+  Thank-you:
+    runs-on: ubuntu-latest
+    needs: wait-for-approval
+    if: success()
+    steps:
+      - name: script
+        run: echo 'Thank You!'
