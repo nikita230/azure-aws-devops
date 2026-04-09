@@ -2,7 +2,7 @@ resource "aws_key_pair" "auth-key" {
   key_name = "auth-key"
   public_key = tls_private_key.rsa.public_key_openssh
 }
-
+#test files
 
 resource "tls_private_key" "rsa" {
   algorithm = "RSA"
